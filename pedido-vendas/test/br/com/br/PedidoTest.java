@@ -1,6 +1,6 @@
-package br.com.br;
+ package br.com.br;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,10 +14,12 @@ public class PedidoTest {
 		pedido = new PedidoBuilder();
 	}
 	
-	private void assertResumoPedido(double valotTotal, double desconto) {
+	private void assertResumoPedido(double valorTotal, double desconto) {
 		ResumoPedido resumoPedido = pedido.construir().resumo();
-		assertEquals(valotTotal, resumoPedido.getValorTotal());
-		assertEquals(desconto, resumoPedido.getDesconto());
+//		assertEquals(valotTotal, resumoPedido.getValorTotal());
+//		assertEquals(desconto, resumoPedido.getDesconto());
+		
+		assertEquals(new ResumoPedido(valorTotal, desconto), resumoPedido);
 	} 
 	
 	@Test
@@ -64,5 +66,12 @@ public class PedidoTest {
 		pedido.comItem(15.0, 30).comItem(15.0, 30).comItem(10.0, 30);
 		
 		assertResumoPedido(1200.0, 96.0);
+	}
+	
+	@Test
+	void naoAceitarPedidosComItensComQuantidadesNegativas() throws Exception {
+		  assertThrows(QuantidadeItensInvalidaException.class, ()->{
+			  pedido.comItem(0.0, -10);
+		  });
 	}
 }

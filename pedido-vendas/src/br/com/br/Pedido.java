@@ -16,6 +16,9 @@ public class Pedido {
 	}
 
 	public void adicionarItem(ItemPedido itemPedido) {
+		if(itemPedido.getQuantidade() < 0)
+			throw new QuantidadeItensInvalidaException();
+		
 		itens.add(itemPedido);
 	}
 
